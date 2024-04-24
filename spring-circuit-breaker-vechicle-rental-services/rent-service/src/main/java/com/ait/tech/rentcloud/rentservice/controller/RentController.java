@@ -1,11 +1,14 @@
 package com.ait.tech.rentcloud.rentservice.controller;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.ait.tech.rentcloud.model.rent.Rent;
 import com.ait.tech.rentcloud.rentservice.model.Response;
 import com.ait.tech.rentcloud.rentservice.model.SimpleResponse;
 import com.ait.tech.rentcloud.rentservice.service.RentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -31,9 +34,6 @@ public class RentController {
         }else{
          return    rentService.findDetailResponse(id);
         }
-
-
-
     }
 
     @GetMapping

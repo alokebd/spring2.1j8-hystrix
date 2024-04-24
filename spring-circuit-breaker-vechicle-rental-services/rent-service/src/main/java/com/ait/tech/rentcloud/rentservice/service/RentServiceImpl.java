@@ -6,8 +6,11 @@ import com.ait.tech.rentcloud.model.rent.Rent;
 import com.ait.tech.rentcloud.model.vehicle.Vehicle;
 import com.ait.tech.rentcloud.rentservice.hystrix.CommonHysctrixCommand;
 import com.ait.tech.rentcloud.rentservice.hystrix.VehicleCommand;
+import com.ait.tech.rentcloud.rentservice.model.CutomerDto;
 import com.ait.tech.rentcloud.rentservice.model.DetailResponse;
 import com.ait.tech.rentcloud.rentservice.repository.RentRepository;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -39,7 +42,9 @@ public class RentServiceImpl implements RentService {
     @Autowired
     RestTemplate restTemplate;
 
-
+    @Autowired
+    private ModelMapper modelMapper;
+    
     @Override
     public Rent save(Rent customer) {
         return rentRepository.save(customer);
@@ -62,12 +67,13 @@ public class RentServiceImpl implements RentService {
     public DetailResponse findDetailResponse(int id) throws ExecutionException, InterruptedException {
         Rent rent=findById(id);
         Customer customer=getCustomer(rent.getCustomerId());
-        Vehicle vehicle= getVehicle(rent.getVehicleId());
-        return new DetailResponse(rent,customer,vehicle);
+       	CutomerDto data = modelMapper.map(customer, CutomerDto.class);
+    	Vehicle vehicle= getVehicle(rent.getVehicleId());
+        return new DetailResponse(rent,data,vehicle);
     }
 
     public DetailResponse findDetailResponsefallback(int id) {
-        return new DetailResponse(new Rent(),new Customer(),new Vehicle());
+        return new DetailResponse(new Rent(),modelMapper.map(new Customer(), CutomerDto.class),new Vehicle());
     }
 
     private Customer getCustomer(int customerId) throws ExecutionException, InterruptedException {

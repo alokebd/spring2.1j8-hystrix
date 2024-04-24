@@ -7,10 +7,12 @@ import com.ait.tech.rentcloud.model.vehicle.Vehicle;
 public class DetailResponse implements Response {
 
     Rent rent;
-    Customer customer;
+    //Customer customer;
+    CutomerDto customer;
+    
     Vehicle vehicle;
 
-    public DetailResponse(Rent rent, Customer customer, Vehicle vehicle) {
+    public DetailResponse(Rent rent, CutomerDto customer, Vehicle vehicle) {
         this.rent = rent;
         this.customer = customer;
         this.vehicle = vehicle;
@@ -24,11 +26,11 @@ public class DetailResponse implements Response {
         this.rent = rent;
     }
 
-    public Customer getCustomer() {
+    public CutomerDto getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CutomerDto customer) {
         this.customer = customer;
     }
 
